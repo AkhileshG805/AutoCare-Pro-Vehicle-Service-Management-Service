@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCare Pro | Vehicle Service Management Dashboard</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3202/3202926.png">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container" id="appContainer">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fa-solid fa-gears"></i>
+                    <span>AutoCare Pro</span>
+                </div>
+                <button class="sidebar-toggle-btn" id="sidebarCollapseBtn" aria-label="Collapse Sidebar">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li class="menu-item" data-page="dashboard">
+                    <a href="#/dashboard" class="menu-link">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="customers">
+                    <a href="#/customers" class="menu-link">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Customers</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="vehicles">
+                    <a href="#/vehicles" class="menu-link">
+                        <i class="fa-solid fa-car"></i>
+                        <span>Vehicles</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="bookings">
+                    <a href="#/bookings" class="menu-link">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Service Bookings</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="tracking">
+                    <a href="#/tracking" class="menu-link">
+                        <i class="fa-solid fa-route"></i>
+                        <span>Service Tracking</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="records">
+                    <a href="#/records" class="menu-link">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        <span>Service Records</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="mechanics">
+                    <a href="#/mechanics" class="menu-link">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        <span>Mechanics</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="services">
+                    <a href="#/services" class="menu-link">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Services</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="inventory">
+                    <a href="#/inventory" class="menu-link">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span>Inventory</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="billing">
+                    <a href="#/billing" class="menu-link">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Billing & Payments</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="reports">
+                    <a href="#/reports" class="menu-link">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Reports & Analytics</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="notifications">
+                    <a href="#/notifications" class="menu-link">
+                        <i class="fa-solid fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="settings">
+                    <a href="#/settings" class="menu-link">
+                        <i class="fa-solid fa-sliders"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-page="profile">
+                    <a href="#/profile" class="menu-link">
+                        <i class="fa-solid fa-user-gear"></i>
+                        <span>Admin Profile</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer" style="padding: 16px;">
+                <button class="btn-logout-sidebar" id="logoutBtn" style="margin-bottom: 12px; width: 100%;">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </button>
+                <div class="sidebar-credits" style="font-size: 11px; color: #64748b; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px; line-height: 1.4;">
+                    Developed by<br>
+                    <strong style="color: #cbd5e1; font-weight: 600;">Akhilesh Girish Babu</strong><br>
+                    <span style="font-size: 10px; color: #475569;">B.Tech AI & DS • 2028</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT CONTAINER -->
+        <main class="main-content">
+            <!-- HEADER -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggleBtn" aria-label="Toggle Menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1 class="page-title-h1" id="headerPageTitle">Dashboard</h1>
+                </div>
+
+                <div class="header-right">
+                    <!-- Global Search Bar -->
+                    <div class="global-search-container">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="globalSearchInput" placeholder="Search customer, vehicle, invoice...">
+                        <!-- Search Results Dropdown -->
+                        <div class="global-search-results-dropdown" id="globalSearchResults">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Notification Dropdown -->
+                    <div class="notification-bell-wrapper">
+                        <button class="bell-btn" id="bellBtn" aria-label="Notifications">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-badge" id="notificationBadgeCount">0</span>
+                        </button>
+                        <div class="notification-dropdown" id="notificationDropdown">
+                            <div class="notification-dropdown-header">
+                                <h3>Notifications</h3>
+                                <button class="btn-mark-all-read" id="markAllReadBtn">Mark all as read</button>
+                            </div>
+                            <ul class="notification-list" id="notificationDropdownList">
+                                <!-- Populated dynamically -->
+                            </ul>
+                            <div class="notification-dropdown-footer">
+                                <a href="#/notifications">View All Notifications</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Dropdown -->
+                    <div class="user-profile-wrapper">
+                        <div class="user-profile-trigger" id="profileDropdownTrigger">
+                            <img src="" alt="Admin Profile Pic" class="user-avatar" id="headerProfileImg">
+                            <div class="user-info-text">
+                                <span class="user-name-span" id="headerProfileName">Alex Mercer</span>
+                                <span class="user-role-span" id="headerProfileRole">Manager</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down" style="font-size: 11px; margin-left: 2px;"></i>
+                        </div>
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <a href="#/profile" class="profile-dropdown-item">
+                                <i class="fa-solid fa-user"></i> My Profile
+                            </a>
+                            <a href="#/settings" class="profile-dropdown-item">
+                                <i class="fa-solid fa-gear"></i> Settings
+                            </a>
+                            <div class="profile-dropdown-divider"></div>
+                            <a href="#" class="profile-dropdown-item" id="dropdownLogoutBtn">
+                                <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CONTENT BODY -->
+            <div class="content-body" id="mainContentBody">
+                
+                <!-- ==========================================
+                     1. DASHBOARD VIEW (#/dashboard)
+                     ========================================== -->
+                <div class="content-panel" id="view-dashboard">
+                    <div class="dashboard-greeting-header" style="margin-bottom: 24px;">
+                        <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 4px;">Welcome back, <span id="dashboardWelcomeName">Akhilesh</span></h2>
+                        <p style="color: var(--text-muted); font-size: 14px; font-weight: 500;">Here’s what’s happening at AutoCare Pro today.</p>
+                    </div>
+
+                    <div class="stats-grid" id="dashboardStatsGrid">
+                        <!-- Stat cards will render here dynamically -->
+                    </div>
+
+                    <!-- Vehicles in Service visual dashboard section -->
+                    <div class="card-panel" style="margin-top: 24px; margin-bottom: 24px;">
+                        <div class="card-panel-header">
+                            <h3>Vehicles Currently in Service Bay</h3>
+                            <a href="#/tracking" class="btn-secondary" style="padding: 6px 12px; font-size: 12.5px;">Live Stepper Tracking</a>
+                        </div>
+                        <div class="card-panel-body" style="padding: 16px;">
+                            <div class="dashboard-vehicles-in-service-grid" id="dashboardActiveVehiclesGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                                <!-- Dynamically loaded active service BMW cards -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Analytics Section -->
+                    <div class="charts-grid-flex">
+                        <div class="chart-card">
+                            <h3>Monthly Revenue (₹)</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="chartMonthlyRevenue"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Service Bookings & Status</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="chartPopularServices"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-widget-sections-grid">
+                        <div class="card-panel">
+                            <div class="card-panel-header">
+                                <h3>Today's Recent Bookings</h3>
+                                <a href="#/bookings" class="btn-secondary" style="padding: 6px 12px; font-size: 12.5px;">View Bookings</a>
+                            </div>
+                            <div class="card-panel-body">
+                                <div class="table-responsive-container">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Booking ID</th>
+                                                <th>Customer</th>
+                                                <th>Vehicle</th>
+                                                <th>Service Type</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dashboardRecentBookingsTable">
+                                            <!-- Dynamically generated rows -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-panel">
+                            <div class="card-panel-header">
+                                <h3>Low Stock Alerts</h3>
+                                <a href="#/inventory" class="btn-secondary" style="padding: 6px 12px; font-size: 12.5px;">Manage Inventory</a>
+                            </div>
+                            <div class="card-panel-body">
+                                <ul style="list-style: none;" id="dashboardLowStockList">
+                                    <!-- Low stock parts injected here -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     2. CUSTOMERS CRUD VIEW (#/customers)
+                     ========================================== -->
+                <div class="content-panel" id="view-customers">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Customer Directory</h2>
+                            <p>Register, update, and manage your service center customers</p>
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn-primary" id="openAddCustomerModalBtn">
+                                <i class="fa-solid fa-user-plus"></i> Add Customer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Search, filter and sort controls -->
+                    <div class="table-controls-wrapper">
+                        <div class="table-controls-left">
+                            <div class="search-box-control">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="customerSearchInput" placeholder="Search customers...">
+                            </div>
+                            <select class="select-box-control" id="customerSortSelect">
+                                <option value="name-asc">Sort Name (A-Z)</option>
+                                <option value="name-desc">Sort Name (Z-A)</option>
+                                <option value="date-newest">Registration (Newest)</option>
+                                <option value="date-oldest">Registration (Oldest)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card-panel" style="border-radius: 0 0 var(--radius-md) var(--radius-md);">
+                        <div class="table-responsive-container">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Customer ID</th>
+                                        <th>Full Name</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Registered Vehicles</th>
+                                        <th>Reg. Date</th>
+                                        <th style="text-align: right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customersTableBody">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Pagination container -->
+                    <div class="pagination-container" id="customerPagination">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     3. VEHICLES CRUD VIEW (#/vehicles)
+                     ========================================== -->
+                <div class="content-panel" id="view-vehicles">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Vehicles Inventory</h2>
+                            <p>Manage customer-registered automobiles and safety inspections</p>
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn-primary" id="openAddVehicleModalBtn">
+                                <i class="fa-solid fa-car-side"></i> Add Vehicle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-controls-wrapper">
+                        <div class="table-controls-left">
+                            <div class="search-box-control">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="vehicleSearchInput" placeholder="Search registration, brand...">
+                            </div>
+                            <select class="select-box-control" id="vehicleFuelFilter">
+                                <option value="all">All Fuel Types</option>
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card-panel" style="border-radius: 0 0 var(--radius-md) var(--radius-md);">
+                        <div class="table-responsive-container">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Vehicle ID</th>
+                                        <th>Registration No.</th>
+                                        <th>Brand & Model</th>
+                                        <th>Owner Name</th>
+                                        <th>Fuel / Trans.</th>
+                                        <th>Last Service</th>
+                                        <th style="text-align: right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vehiclesTableBody">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="pagination-container" id="vehiclePagination"></div>
+                </div>
+
+                <!-- ==========================================
+                     4. BOOKINGS CRUD VIEW (#/bookings)
+                     ========================================== -->
+                <div class="content-panel" id="view-bookings">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Service Bookings</h2>
+                            <p>Schedule new appointments and track mechanic assignments</p>
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn-primary" id="openAddBookingModalBtn">
+                                <i class="fa-solid fa-calendar-plus"></i> Create Booking
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-controls-wrapper">
+                        <div class="table-controls-left">
+                            <div class="search-box-control">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="bookingSearchInput" placeholder="Search customer, vehicle...">
+                            </div>
+                            <select class="select-box-control" id="bookingStatusFilter">
+                                <option value="all">All Booking Statuses</option>
+                                <option value="Booked">Booked</option>
+                                <option value="Confirmed">Confirmed</option>
+                                <option value="Inspection">Inspection</option>
+                                <option value="In Service">In Service</option>
+                                <option value="Waiting for Parts">Waiting for Parts</option>
+                                <option value="Ready for Delivery">Ready for Delivery</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                            <input type="date" class="select-box-control" id="bookingDateFilter">
+                        </div>
+                    </div>
+
+                    <div class="card-panel" style="border-radius: 0 0 var(--radius-md) var(--radius-md);">
+                        <div class="table-responsive-container">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Booking ID</th>
+                                        <th>Customer</th>
+                                        <th>Vehicle Reg</th>
+                                        <th>Service Type</th>
+                                        <th>Booking Date</th>
+                                        <th>Assigned Mechanic</th>
+                                        <th>Status</th>
+                                        <th style="text-align: right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bookingsTableBody">
+                                    <!-- Injected dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="pagination-container" id="bookingPagination"></div>
+                </div>
+
+                <!-- ==========================================
+                     5. SERVICE TRACKING VIEW (#/tracking)
+                     ========================================== -->
+                <div class="content-panel" id="view-tracking">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Live Service Tracking</h2>
+                            <p>Follow a vehicle through successive phases of service and inspection</p>
+                        </div>
+                        <div class="section-actions">
+                            <select class="select-box-control" id="trackingBookingSelector" style="min-width: 250px;">
+                                <!-- Dropdown loading bookings list -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="trackingInteractiveWrapper">
+                        <!-- Dynamic tracking contents (Timeline tracker) loaded here -->
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     6. SERVICE RECORDS VIEW (#/records)
+                     ========================================== -->
+                <div class="content-panel" id="view-records">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Service Histories & Records</h2>
+                            <p>Verify completed operations, replaced spare parts, and invoices</p>
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn-primary" id="openAddRecordModalBtn">
+                                <i class="fa-solid fa-file-circle-plus"></i> Add Service Record
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-controls-wrapper">
+                        <div class="table-controls-left">
+                            <div class="search-box-control">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="recordSearchInput" placeholder="Search records...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-panel" style="border-radius: 0 0 var(--radius-md) var(--radius-md);">
+                        <div class="table-responsive-container">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Record ID</th>
+                                        <th>Vehicle Reg</th>
+                                        <th>Customer</th>
+                                        <th>Service Date</th>
+                                        <th>Service Type</th>
+                                        <th>Mechanic</th>
+                                        <th>Total Cost</th>
+                                        <th style="text-align: right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recordsTableBody">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="pagination-container" id="recordPagination"></div>
+                </div>
+
+                <!-- ==========================================
+                     7. MECHANICS VIEW (#/mechanics)
+                     ========================================== -->
+                <div class="content-panel" id="view-mechanics">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Service Bay Mechanics</h2>
+                            <p>Review specialty assignments, workload availability, and performance</p>
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn-primary" id="openAddMechanicModalBtn">
+                                <i class="fa-solid fa-user-plus"></i> Add Mechanic
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-controls-wrapper" style="border-radius: var(--radius-md); margin-bottom: 24px;">
+                        <div class="table-controls-left">
+                            <div class="search-box-control">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="mechanicSearchInput" placeholder="Search mechanics...">
+                            </div>
+                            <select class="select-box-control" id="mechanicStatusFilter">
+                                <option value="all">All Availability Statuses</option>
+                                <option value="Available">Available</option>
+                                <option value="Busy">Busy</option>
+                                <option value="On Leave">On Leave</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Card Grid for mechanics -->
+                    <div class="mechanic-cards-grid" id="mechanicsGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     8. SERVICES VIEW (#/services)
+                     ========================================== -->
+                <div class="content-panel" id="view-services">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Service Catalog</h2>
+                            <p>Set custom durations, prices, and maintain list of service operations</p>
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn-primary" id="openAddServiceModalBtn">
+                                <i class="fa-solid fa-plus"></i> Add Service Type
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-panel">
+                        <div class="table-responsive-container">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Service ID</th>
+                                        <th>Service Name</th>
+                                        <th>Description</th>
+                                        <th>Duration</th>
+                                        <th>Base Price</th>
+                                        <th>Status</th>
+                                        <th style="text-align: right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="servicesCatalogTableBody">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     9. INVENTORY VIEW (#/inventory)
+                     ========================================== -->
+                <div class="content-panel" id="view-inventory">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Spare Parts & Stock</h2>
+                            <p>Automated warning indicators for low items, catalog storage, and details</p>
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn-primary" id="openAddPartModalBtn">
+                                <i class="fa-solid fa-plus"></i> Add Spare Part
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-controls-wrapper">
+                        <div class="table-controls-left">
+                            <div class="search-box-control">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="inventorySearchInput" placeholder="Search inventory...">
+                            </div>
+                            <select class="select-box-control" id="inventoryCategoryFilter">
+                                <option value="all">All Categories</option>
+                                <option value="Fluids">Fluids</option>
+                                <option value="Brakes">Brakes</option>
+                                <option value="Filters">Filters</option>
+                                <option value="Electrical">Electrical</option>
+                                <option value="Accessories">Accessories</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card-panel" style="border-radius: 0 0 var(--radius-md) var(--radius-md);">
+                        <div class="table-responsive-container">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Part ID</th>
+                                        <th>Part Name</th>
+                                        <th>Category</th>
+                                        <th>Supplier</th>
+                                        <th>Qty Available</th>
+                                        <th>Min Stock Level</th>
+                                        <th>Unit Price</th>
+                                        <th>Status Alert</th>
+                                        <th style="text-align: right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventoryTableBody">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="pagination-container" id="inventoryPagination"></div>
+                </div>
+
+                <!-- ==========================================
+                     10. BILLING & PAYMENTS VIEW (#/billing)
+                     ========================================== -->
+                <div class="content-panel" id="view-billing">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Billing, Payments & Invoices</h2>
+                            <p>Generate, edit, and print dynamic client invoices and transactions</p>
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn-primary" id="openAddInvoiceModalBtn">
+                                <i class="fa-solid fa-file-invoice"></i> Generate Invoice
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-controls-wrapper">
+                        <div class="table-controls-left">
+                            <div class="search-box-control">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="invoiceSearchInput" placeholder="Search invoice or customer...">
+                            </div>
+                            <select class="select-box-control" id="invoiceStatusFilter">
+                                <option value="all">All Payment Statuses</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Partially Paid">Partially Paid</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card-panel" style="border-radius: 0 0 var(--radius-md) var(--radius-md);">
+                        <div class="table-responsive-container">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Invoice ID</th>
+                                        <th>Customer</th>
+                                        <th>Vehicle Reg</th>
+                                        <th>Invoice Date</th>
+                                        <th>Grand Total</th>
+                                        <th>Payment Method</th>
+                                        <th>Status</th>
+                                        <th style="text-align: right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="invoicesTableBody">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="pagination-container" id="invoicePagination"></div>
+                </div>
+
+                <!-- ==========================================
+                     11. REPORTS AND ANALYTICS (#/reports)
+                     ========================================== -->
+                <div class="content-panel" id="view-reports">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Reports & Analytics</h2>
+                            <p>Analytical graphs, popular services, mechanics performance and revenue</p>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid" id="reportsStatsGrid">
+                        <!-- Dynamically filled with stats -->
+                    </div>
+
+                    <div class="charts-grid-flex">
+                        <div class="chart-card">
+                            <h3>Monthly Total Invoiced Revenue (₹)</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="chartReportsRevenue"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Booking Operations status Distribution</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="chartReportsStatus"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid-flex">
+                        <div class="chart-card">
+                            <h3>Most Popular Requested Service operations</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="chartReportsPopular"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Bay Mechanics Workload Distribution</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="chartReportsMechanics"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     12. NOTIFICATIONS VIEW (#/notifications)
+                     ========================================== -->
+                <div class="content-panel" id="view-notifications">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Central Notifications</h2>
+                            <p>Manage and clear system warnings, appointments, and alerts</p>
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn-secondary" id="pageClearNotificationsBtn">
+                                <i class="fa-solid fa-trash-can"></i> Clear All Read
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-panel">
+                        <div class="card-panel-header">
+                            <h3>Notifications Log</h3>
+                        </div>
+                        <div class="card-panel-body" style="padding: 0;">
+                            <ul style="list-style: none;" id="pageNotificationsList">
+                                <!-- Populated dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     13. SETTINGS VIEW (#/settings)
+                     ========================================== -->
+                <div class="content-panel" id="view-settings">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>System Settings</h2>
+                            <p>Customize service store configurations, working hours, and billing settings</p>
+                        </div>
+                    </div>
+
+                    <div class="card-panel" style="max-width: 800px;">
+                        <div class="card-panel-header">
+                            <h3>Service Center Configurations</h3>
+                        </div>
+                        <div class="card-panel-body">
+                            <form id="settingsForm">
+                                <div class="form-grid-2-col">
+                                    <div class="form-field-group">
+                                        <label for="setCenterName">Service Center Name <span class="required-star">*</span></label>
+                                        <input type="text" id="setCenterName" required>
+                                    </div>
+                                    <div class="form-field-group">
+                                        <label for="setCenterEmail">Service Email Address <span class="required-star">*</span></label>
+                                        <input type="email" id="setCenterEmail" required>
+                                    </div>
+                                    <div class="form-field-group">
+                                        <label for="setCenterPhone">Phone Number <span class="required-star">*</span></label>
+                                        <input type="text" id="setCenterPhone" required>
+                                    </div>
+                                    <div class="form-field-group">
+                                        <label for="setTaxPercentage">Default VAT / Tax Percentage (%) <span class="required-star">*</span></label>
+                                        <input type="number" id="setTaxPercentage" step="0.1" required>
+                                    </div>
+                                    <div class="form-field-group">
+                                        <label for="setCurrency">Currency Denomination <span class="required-star">*</span></label>
+                                        <input type="text" id="setCurrency" required>
+                                    </div>
+                                    <div class="form-field-group">
+                                        <label for="setWorkingHours">Business Operational Hours <span class="required-star">*</span></label>
+                                        <input type="text" id="setWorkingHours" required>
+                                    </div>
+                                    <div class="form-field-group form-group-full">
+                                        <label for="setCenterAddress">Physical Address <span class="required-star">*</span></label>
+                                        <textarea id="setCenterAddress" rows="3" required></textarea>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                                    <button type="submit" class="btn-primary">
+                                        <i class="fa-solid fa-floppy-disk"></i> Save Configurations
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     14. ADMIN PROFILE VIEW (#/profile)
+                     ========================================== -->
+                <div class="content-panel" id="view-profile">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>My Profile</h2>
+                            <p>Update personal credentials, role permissions, and active configurations</p>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 24px; max-width: 1000px;">
+                        <div class="card-panel" style="height: fit-content;">
+                            <div class="card-panel-body" style="text-align: center;">
+                                <div class="profile-avatar-container" style="position: relative; display: inline-block;">
+                                    <img src="" alt="Admin Profile Pic" class="profile-avatar-large" id="profileCardImg" style="display: block; margin: 0 auto 16px; border-radius: 50%; width: 120px; height: 120px; object-fit: cover; border: 4px solid var(--primary-light);">
+                                    <input type="file" id="profileAvatarUploadInput" accept="image/*" style="display: none;">
+                                    <button type="button" class="btn-avatar-upload" onclick="document.getElementById('profileAvatarUploadInput').click()" style="position: absolute; bottom: 12px; right: 0; background: var(--primary); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);"><i class="fa-solid fa-camera" style="font-size: 14px;"></i></button>
+                                </div>
+                                <h3 id="profileCardName" style="font-size: 18px; font-weight: 700; margin-bottom: 4px;"></h3>
+                                <p id="profileCardRole" style="color: var(--text-muted); font-size: 13.5px; font-weight: 500; margin-bottom: 12px;"></p>
+                                <span class="badge badge-success">Active Administrator</span>
+                                
+                                <div class="profile-dropdown-divider" style="margin: 20px 0;"></div>
+                                
+                                <div style="text-align: left; font-size: 13px;">
+                                    <h4 style="font-weight: 700; margin-bottom: 10px; color: var(--text-primary); text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Developer Info</h4>
+                                    <p style="margin-bottom: 6px;"><strong style="color: var(--text-secondary);">Course:</strong> B.Tech AI & DS</p>
+                                    <p style="margin-bottom: 6px;"><strong style="color: var(--text-secondary);">College:</strong> Dr N G P Inst. of Tech.</p>
+                                    <p style="margin-bottom: 6px;"><strong style="color: var(--text-secondary);">Batch:</strong> 2028</p>
+                                    <p style="margin-bottom: 6px;"><strong style="color: var(--text-secondary);">Project:</strong> AutoCare Pro</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-panel">
+                            <div class="card-panel-header">
+                                <h3>Account Information & Professional Profile</h3>
+                            </div>
+                            <div class="card-panel-body">
+                                <form id="profileForm">
+                                    <div class="form-grid-2-col">
+                                        <div class="form-field-group">
+                                            <label for="profileNameInput">Full Name <span class="required-star">*</span></label>
+                                            <input type="text" id="profileNameInput" required>
+                                        </div>
+                                        <div class="form-field-group">
+                                            <label for="profileEmailInput">Email Address <span class="required-star">*</span></label>
+                                            <input type="email" id="profileEmailInput" required>
+                                        </div>
+                                        <div class="form-field-group">
+                                            <label for="profilePhoneInput">Phone Number (display placeholder if empty)</label>
+                                            <input type="text" id="profilePhoneInput" placeholder="Not Provided">
+                                        </div>
+                                        <div class="form-field-group">
+                                            <label for="profileRoleInput">Assigned Role</label>
+                                            <input type="text" id="profileRoleInput" readonly style="background-color: var(--bg-main); cursor: not-allowed;">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="profile-dropdown-divider" style="margin: 24px 0;"></div>
+                                    
+                                    <h4 style="font-weight: 700; margin-bottom: 12px; color: var(--text-primary);">Project & Academic Information</h4>
+                                    <div class="form-grid-2-col">
+                                        <div class="form-field-group">
+                                            <label>Academic Course</label>
+                                            <input type="text" value="B.Tech Artificial Intelligence and Data Science" readonly style="background-color: var(--bg-main); cursor: not-allowed;">
+                                        </div>
+                                        <div class="form-field-group">
+                                            <label>Educational Institution</label>
+                                            <input type="text" value="Dr N G P Institute of Technology" readonly style="background-color: var(--bg-main); cursor: not-allowed;">
+                                        </div>
+                                        <div class="form-field-group">
+                                            <label>Graduating Batch</label>
+                                            <input type="text" value="2028" readonly style="background-color: var(--bg-main); cursor: not-allowed;">
+                                        </div>
+                                        <div class="form-field-group">
+                                            <label>Project Title</label>
+                                            <input type="text" value="AutoCare Pro - Vehicle Service Management System" readonly style="background-color: var(--bg-main); cursor: not-allowed;">
+                                        </div>
+                                    </div>
+
+                                    <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+                                        <button type="submit" class="btn-primary">
+                                            <i class="fa-solid fa-user-check"></i> Save Personal Details
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <div class="profile-dropdown-divider" style="margin: 24px 0;"></div>
+
+                                <h3>Security & Access Credentials</h3>
+                                <form id="changePasswordForm" style="margin-top: 16px;">
+                                    <div class="form-grid-2-col">
+                                        <div class="form-field-group">
+                                            <label for="oldPasswordInput">Current Password <span class="required-star">*</span></label>
+                                            <input type="password" id="oldPasswordInput" placeholder="••••••••" required>
+                                        </div>
+                                        <div class="form-field-group">
+                                            <label for="newPasswordInput">New Password <span class="required-star">*</span></label>
+                                            <input type="password" id="newPasswordInput" placeholder="••••••••" required>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                                        <button type="submit" class="btn-primary">
+                                            <i class="fa-solid fa-key"></i> Save Password
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     15. RECORD/DETAILS SUBVIEWS
+                     ========================================== -->
+                <!-- Customer Details View (#/customer-details) -->
+                <div class="content-panel" id="view-customer-details">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2 id="customerDetailsName">Customer Profile</h2>
+                            <p>Verify owner contact details, registered fleet and histories</p>
+                        </div>
+                        <div class="section-actions">
+                            <a href="#/customers" class="btn-secondary">
+                                <i class="fa-solid fa-arrow-left"></i> Back to Directory
+                            </a>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 24px;">
+                        <div class="card-panel">
+                            <div class="card-panel-header">
+                                <h3>Account Information</h3>
+                            </div>
+                            <div class="card-panel-body" id="customerDetailsInfoCard">
+                                <!-- Loaded dynamically -->
+                            </div>
+                        </div>
+                        <div class="card-panel">
+                            <div class="card-panel-header">
+                                <h3>Registered Vehicles</h3>
+                            </div>
+                            <div class="card-panel-body">
+                                <div class="table-responsive-container">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Reg No.</th>
+                                                <th>Brand & Model</th>
+                                                <th>Year</th>
+                                                <th>Fuel</th>
+                                                <th>Last Service</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="customerDetailsVehiclesTable">
+                                            <!-- Dynamically populated -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle Details View (#/vehicle-details) -->
+                <div class="content-panel" id="view-vehicle-details">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2 id="vehicleDetailsTitle">Vehicle Record</h2>
+                            <p>Verify registration parameters, diagnostics and history of repairs</p>
+                        </div>
+                        <div class="section-actions">
+                            <a href="#/vehicles" class="btn-secondary">
+                                <i class="fa-solid fa-arrow-left"></i> Back to Fleet
+                            </a>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 24px;">
+                        <div class="card-panel">
+                            <div class="card-panel-header">
+                                <h3>Technical Information</h3>
+                            </div>
+                            <div class="card-panel-body" id="vehicleDetailsInfoCard">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="card-panel">
+                            <div class="card-panel-header">
+                                <h3>Service Records History</h3>
+                            </div>
+                            <div class="card-panel-body">
+                                <div class="table-responsive-container">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Record ID</th>
+                                                <th>Date</th>
+                                                <th>Service Type</th>
+                                                <th>Parts Replaced</th>
+                                                <th>Total Cost (₹)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="vehicleDetailsHistoryTable">
+                                            <!-- Injected dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoice Details View (#/invoice-details) -->
+                <div class="content-panel" id="view-invoice-details">
+                    <div class="section-header-flex">
+                        <div class="section-title-wrapper">
+                            <h2>Tax Invoice Details</h2>
+                            <p>Print or download invoice copy for customer records</p>
+                        </div>
+                        <div class="section-actions">
+                            <a href="#/billing" class="btn-secondary">
+                                <i class="fa-solid fa-arrow-left"></i> Back to Invoices
+                            </a>
+                            <button class="btn-primary" onclick="window.print()">
+                                <i class="fa-solid fa-print"></i> Print Invoice
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Invoice printable container -->
+                    <div class="invoice-print-container" id="invoice-print-section">
+                        <!-- Loaded dynamically via JavaScript template -->
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ==========================================================================
+         MODAL DIALOGS
+         ========================================================================== -->
+    
+    <!-- 1. CUSTOMER MODAL (Add / Edit) -->
+    <div class="modal-overlay" id="customerModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="customerModalTitle">Add Customer</h3>
+                <button class="btn-close-modal" class="closeModalBtn" onclick="closeModal('customerModal')">&times;</button>
+            </div>
+            <form id="customerForm">
+                <input type="hidden" id="customerIdHidden">
+                <div class="modal-body">
+                    <div class="form-grid-2-col">
+                        <div class="form-field-group">
+                            <label for="custName">Full Name <span class="required-star">*</span></label>
+                            <input type="text" id="custName" required placeholder="e.g. John Doe">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="custPhone">Phone Number <span class="required-star">*</span></label>
+                            <input type="tel" id="custPhone" required placeholder="e.g. +1 (555) 123-4567">
+                        </div>
+                        <div class="form-field-group form-group-full">
+                            <label for="custEmail">Email Address <span class="required-star">*</span></label>
+                            <input type="email" id="custEmail" required placeholder="e.g. john@example.com">
+                        </div>
+                        <div class="form-field-group form-group-full">
+                            <label for="custAddress">Billing Address <span class="required-star">*</span></label>
+                            <textarea id="custAddress" rows="3" required placeholder="Full physical street address"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('customerModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. VEHICLE MODAL (Add / Edit) -->
+    <div class="modal-overlay" id="vehicleModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="vehicleModalTitle">Add Vehicle</h3>
+                <button class="btn-close-modal" onclick="closeModal('vehicleModal')">&times;</button>
+            </div>
+            <form id="vehicleForm">
+                <input type="hidden" id="vehicleIdHidden">
+                <div class="modal-body">
+                    <div class="form-grid-2-col">
+                        <div class="form-field-group">
+                            <label for="vehOwner">Vehicle Owner <span class="required-star">*</span></label>
+                            <select id="vehOwner" required class="select-box-control" style="width: 100%;">
+                                <!-- Loaded dynamically from customers -->
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="vehRegNo">Registration Plate Number <span class="required-star">*</span></label>
+                            <input type="text" id="vehRegNo" required placeholder="e.g. MI-TXT-9821">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="vehBrand">Brand Make <span class="required-star">*</span></label>
+                            <input type="text" id="vehBrand" required placeholder="e.g. Ford">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="vehModel">Model Name <span class="required-star">*</span></label>
+                            <input type="text" id="vehModel" required placeholder="e.g. Mustang GT">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="vehYear">Manufacturing Year <span class="required-star">*</span></label>
+                            <input type="number" id="vehYear" required min="1900" max="2030" placeholder="e.g. 2021">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="vehFuel">Fuel Designation <span class="required-star">*</span></label>
+                            <select id="vehFuel" required class="select-box-control" style="width: 100%;">
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="vehTransmission">Transmission Type <span class="required-star">*</span></label>
+                            <select id="vehTransmission" required class="select-box-control" style="width: 100%;">
+                                <option value="Automatic">Automatic</option>
+                                <option value="Manual">Manual</option>
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="vehKmReading">Kilometer Reading <span class="required-star">*</span></label>
+                            <input type="number" id="vehKmReading" required min="0" placeholder="e.g. 42500">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="vehColor">Exterior Color <span class="required-star">*</span></label>
+                            <input type="text" id="vehColor" required placeholder="e.g. Ruby Red">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="vehLastService">Last Service Date</label>
+                            <input type="date" id="vehLastService">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('vehicleModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Vehicle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. BOOKING MODAL (Add / Edit) -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="bookingModalTitle">Create Service Booking</h3>
+                <button class="btn-close-modal" onclick="closeModal('bookingModal')">&times;</button>
+            </div>
+            <form id="bookingForm">
+                <input type="hidden" id="bookingIdHidden">
+                <div class="modal-body">
+                    <div class="form-grid-2-col">
+                        <div class="form-field-group">
+                            <label for="bkgCustomer">Select Customer <span class="required-star">*</span></label>
+                            <select id="bkgCustomer" required class="select-box-control" style="width: 100%;">
+                                <!-- Dynamically loaded -->
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="bkgVehicle">Select Vehicle <span class="required-star">*</span></label>
+                            <select id="bkgVehicle" required class="select-box-control" style="width: 100%;">
+                                <!-- Dynamically loaded based on chosen customer -->
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="bkgService">Service Catalog Type <span class="required-star">*</span></label>
+                            <select id="bkgService" required class="select-box-control" style="width: 100%;">
+                                <!-- Dynamically loaded -->
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="bkgDate">Preferred Service Date <span class="required-star">*</span></label>
+                            <input type="date" id="bkgDate" required>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="bkgTime">Preferred Time <span class="required-star">*</span></label>
+                            <input type="time" id="bkgTime" required>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="bkgMechanic">Assign Mechanic</label>
+                            <select id="bkgMechanic" class="select-box-control" style="width: 100%;">
+                                <!-- Dynamically loaded -->
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="bkgStatus">Service Status <span class="required-star">*</span></label>
+                            <select id="bkgStatus" required class="select-box-control" style="width: 100%;">
+                                <option value="Booked">Booked</option>
+                                <option value="Confirmed">Confirmed</option>
+                                <option value="Inspection">Inspection</option>
+                                <option value="In Service">In Service</option>
+                                <option value="Waiting for Parts">Waiting for Parts</option>
+                                <option value="Ready for Delivery">Ready for Delivery</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="bkgCost">Estimated Price Cost (₹)</label>
+                            <input type="number" id="bkgCost" min="0" placeholder="Automatically set from service">
+                        </div>
+                        <div class="form-field-group form-group-full">
+                            <label for="bkgComplaint">Customer Complaint / Instructions <span class="required-star">*</span></label>
+                            <textarea id="bkgComplaint" rows="2" required placeholder="State key complaints, noises, requests..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('bookingModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. SERVICE RECORD MODAL -->
+    <div class="modal-overlay" id="recordModal">
+        <div class="modal-container modal-lg">
+            <div class="modal-header">
+                <h3 id="recordModalTitle">Add Service Record</h3>
+                <button class="btn-close-modal" onclick="closeModal('recordModal')">&times;</button>
+            </div>
+            <form id="recordForm">
+                <input type="hidden" id="recordIdHidden">
+                <div class="modal-body">
+                    <div class="form-grid-2-col">
+                        <div class="form-field-group">
+                            <label for="recVehicle">Select Vehicle <span class="required-star">*</span></label>
+                            <select id="recVehicle" required class="select-box-control" style="width: 100%;">
+                                <!-- Loaded dynamically from vehicles -->
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="recCustomer">Customer / Owner</label>
+                            <input type="text" id="recCustomer" readonly style="background-color: var(--bg-main); cursor: not-allowed;" placeholder="Select a vehicle first">
+                            <input type="hidden" id="recCustomerIdHidden">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="recService">Service Type <span class="required-star">*</span></label>
+                            <select id="recService" required class="select-box-control" style="width: 100%;">
+                                <!-- Loaded dynamically from services -->
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="recMechanic">Assigned Mechanic <span class="required-star">*</span></label>
+                            <select id="recMechanic" required class="select-box-control" style="width: 100%;">
+                                <!-- Loaded dynamically from mechanics -->
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="recDate">Service Operation Date <span class="required-star">*</span></label>
+                            <input type="date" id="recDate" required>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="recKm">Kilometer Reading <span class="required-star">*</span></label>
+                            <input type="number" id="recKm" required min="0">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="recNextDate">Next Service Recommendation Date <span class="required-star">*</span></label>
+                            <input type="date" id="recNextDate" required>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="recLabor">Labor Charges Cost (₹) <span class="required-star">*</span></label>
+                            <input type="number" id="recLabor" required min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="recPartsCost">Replaced Parts Cost (₹) <span class="required-star">*</span></label>
+                            <input type="number" id="recPartsCost" required min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-field-group form-group-full">
+                            <label for="recPartsList">Parts Replaced (comma separated text)</label>
+                            <input type="text" id="recPartsList" placeholder="e.g. Brake pads, Engine oil filter, cabin air filter">
+                        </div>
+                        <div class="form-field-group form-group-full">
+                            <label for="recWorkPerformed">Mechanical Work Operations Performed <span class="required-star">*</span></label>
+                            <textarea id="recWorkPerformed" rows="3" required placeholder="Describe all operations performed..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('recordModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 5. MECHANIC MODAL -->
+    <div class="modal-overlay" id="mechanicModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="mechanicModalTitle">Add Mechanic</h3>
+                <button class="btn-close-modal" onclick="closeModal('mechanicModal')">&times;</button>
+            </div>
+            <form id="mechanicForm">
+                <input type="hidden" id="mechanicIdHidden">
+                <div class="modal-body">
+                    <div class="form-grid-2-col">
+                        <div class="form-field-group">
+                            <label for="mecName">Full Name <span class="required-star">*</span></label>
+                            <input type="text" id="mecName" required placeholder="e.g. Elena Rostova">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="mecPhone">Phone Number <span class="required-star">*</span></label>
+                            <input type="tel" id="mecPhone" required placeholder="e.g. +1 (555) 789-0124">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="mecEmail">Email Address <span class="required-star">*</span></label>
+                            <input type="email" id="mecEmail" required placeholder="e.g. elena@autocare.com">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="mecSpecialty">Mechanical Specialization <span class="required-star">*</span></label>
+                            <input type="text" id="mecSpecialty" required placeholder="e.g. Brakes & Suspension">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="mecExperience">Experience duration <span class="required-star">*</span></label>
+                            <input type="text" id="mecExperience" required placeholder="e.g. 5 Years">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="mecStatus">Availability Status <span class="required-star">*</span></label>
+                            <select id="mecStatus" required class="select-box-control" style="width: 100%;">
+                                <option value="Available">Available</option>
+                                <option value="Busy">Busy</option>
+                                <option value="On Leave">On Leave</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('mechanicModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Mechanic</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 6. SERVICE CATALOG MODAL -->
+    <div class="modal-overlay" id="serviceModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="serviceModalTitle">Add Service Type</h3>
+                <button class="btn-close-modal" onclick="closeModal('serviceModal')">&times;</button>
+            </div>
+            <form id="serviceForm">
+                <input type="hidden" id="serviceIdHidden">
+                <div class="modal-body">
+                    <div class="form-grid-2-col">
+                        <div class="form-field-group form-group-full">
+                            <label for="srvName">Service Name <span class="required-star">*</span></label>
+                            <input type="text" id="srvName" required placeholder="e.g. Tire Replacement">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="srvDuration">Estimated Duration <span class="required-star">*</span></label>
+                            <input type="text" id="srvDuration" required placeholder="e.g. 1.5 Hours">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="srvPrice">Base Reference Price (₹) <span class="required-star">*</span></label>
+                            <input type="number" id="srvPrice" required min="0" placeholder="e.g. 80">
+                        </div>
+                        <div class="form-field-group form-group-full">
+                            <label for="srvDescription">Service Description <span class="required-star">*</span></label>
+                            <textarea id="srvDescription" rows="3" required placeholder="Describe items included in the service..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('serviceModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Service</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 7. SPARE PARTS MODAL -->
+    <div class="modal-overlay" id="partModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="partModalTitle">Add Spare Part</h3>
+                <button class="btn-close-modal" onclick="closeModal('partModal')">&times;</button>
+            </div>
+            <form id="partForm">
+                <input type="hidden" id="partIdHidden">
+                <div class="modal-body">
+                    <div class="form-grid-2-col">
+                        <div class="form-field-group form-group-full">
+                            <label for="prtName">Spare Part Name <span class="required-star">*</span></label>
+                            <input type="text" id="prtName" required placeholder="e.g. Brembo Front Brake Pads">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="prtCategory">Category Designation <span class="required-star">*</span></label>
+                            <select id="prtCategory" required class="select-box-control" style="width: 100%;">
+                                <option value="Fluids">Fluids</option>
+                                <option value="Brakes">Brakes</option>
+                                <option value="Filters">Filters</option>
+                                <option value="Electrical">Electrical</option>
+                                <option value="Accessories">Accessories</option>
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="prtSupplier">Supplier Source Company <span class="required-star">*</span></label>
+                            <input type="text" id="prtSupplier" required placeholder="e.g. Brembo USA">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="prtQuantity">Stock Quantity Available <span class="required-star">*</span></label>
+                            <input type="number" id="prtQuantity" required min="0" placeholder="e.g. 15">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="prtMinStock">Minimum Safety Warning Level <span class="required-star">*</span></label>
+                            <input type="number" id="prtMinStock" required min="0" placeholder="e.g. 5">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="prtPrice">Retail Unit Price (₹) <span class="required-star">*</span></label>
+                            <input type="number" id="prtPrice" required min="0" step="0.01" placeholder="e.g. 65.00">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('partModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Spare Part</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 8. INVOICE MODAL -->
+    <div class="modal-overlay" id="invoiceModal">
+        <div class="modal-container modal-lg">
+            <div class="modal-header">
+                <h3 id="invoiceModalTitle">Generate Tax Invoice</h3>
+                <button class="btn-close-modal" onclick="closeModal('invoiceModal')">&times;</button>
+            </div>
+            <form id="invoiceForm">
+                <input type="hidden" id="invoiceIdHidden">
+                <div class="modal-body">
+                    <div class="form-grid-2-col">
+                        <div class="form-field-group">
+                            <label for="invBooking">Linked Finished Service Booking <span class="required-star">*</span></label>
+                            <select id="invBooking" required class="select-box-control" style="width: 100%;">
+                                <!-- Dynamically loaded -->
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="invDate">Invoice Settlement Date <span class="required-star">*</span></label>
+                            <input type="date" id="invDate" required>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="invServiceCharges">Base Service Charges (₹) <span class="required-star">*</span></label>
+                            <input type="number" id="invServiceCharges" required min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="invPartsCharges">Replaced Spare Parts Charges (₹) <span class="required-star">*</span></label>
+                            <input type="number" id="invPartsCharges" required min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="invLaborCharges">Additional Labor Charges (₹) <span class="required-star">*</span></label>
+                            <input type="number" id="invLaborCharges" required min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="invDiscount">Customer Discount Amount (₹) <span class="required-star">*</span></label>
+                            <input type="number" id="invDiscount" required min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-field-group">
+                            <label for="invMethod">Payment Method Option <span class="required-star">*</span></label>
+                            <select id="invMethod" required class="select-box-control" style="width: 100%;">
+                                <option value="Cash">Cash</option>
+                                <option value="Credit Card">Credit Card</option>
+                                <option value="Debit Card">Debit Card</option>
+                                <option value="UPI">UPI</option>
+                                <option value="Online Payment">Online Payment</option>
+                            </select>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="invStatus">Invoice Status <span class="required-star">*</span></label>
+                            <select id="invStatus" required class="select-box-control" style="width: 100%;">
+                                <option value="Paid">Paid</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Partially Paid">Partially Paid</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('invoiceModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Generate Invoice</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 9. DELETE CONFIRMATION DIALOG -->
+    <div class="modal-overlay" id="confirmDeleteModal">
+        <div class="modal-container" style="max-width: 400px;">
+            <div class="modal-header" style="border-bottom: none; padding-bottom: 0;">
+                <h3>Confirm Deletion</h3>
+                <button class="btn-close-modal" onclick="closeModal('confirmDeleteModal')">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align: center; padding-top: 10px;">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size: 40px; color: var(--danger); margin-bottom: 16px;"></i>
+                <p style="font-size: 14px; font-weight: 500; color: var(--text-main);">Are you absolutely sure you want to permanently delete this record? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer" style="border-top: none; background-color: transparent; padding-top: 0;">
+                <button type="button" class="btn-secondary" onclick="closeModal('confirmDeleteModal')">Cancel</button>
+                <button type="button" class="btn-danger-action" id="confirmDeleteBtn">Delete Record</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST ALERTS CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Core Database Mock Initialization Script -->
+    <script src="js/mockData.js"></script>
+    <!-- Core Application Logic routing, logic, binding Script -->
+    <script src="js/app.js"></script>
+</body>
+</html>

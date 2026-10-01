@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | AutoCare Pro - Vehicle Service Management System</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3202/3202926.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-body">
+
+    <div class="login-container" id="loginCard">
+        <div class="login-header">
+            <div class="login-logo">
+                <i class="fa-solid fa-gears"></i>
+                <span>AutoCare Pro</span>
+            </div>
+            <p class="login-subtitle">Vehicle Service Management System</p>
+        </div>
+
+        <div class="login-error" id="errorMessage">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span id="errorText">Invalid email or password.</span>
+        </div>
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="emailInput">Email Address</label>
+                <input type="email" id="emailInput" placeholder="admin@autocare.com" required autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="passwordInput">Password</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="passwordInput" placeholder="••••••••" required autocomplete="current-password">
+                    <button type="button" class="toggle-password" id="togglePasswordBtn" aria-label="Toggle password visibility">
+                        <i class="fa-solid fa-eye" id="togglePasswordIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="login-actions">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMeCheckbox">
+                    <span>Remember me</span>
+                </label>
+                <a href="#" class="forgot-password" id="forgotPasswordLink">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn-login" id="loginSubmitBtn">
+                <span id="btnText">Sign In</span>
+                <div class="spinner" id="btnSpinner"></div>
+            </button>
+        </form>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Check if user is already logged in
+        if (localStorage.getItem('autocare_auth') === 'true') {
+            window.location.href = 'index.html';
+        }
+
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+        const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+
+        // Show/hide password functionality
+        togglePasswordBtn.addEventListener('click', () => {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordIcon.classList.remove('fa-eye');
+                togglePasswordIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordIcon.classList.remove('fa-eye-slash');
+                togglePasswordIcon.classList.add('fa-eye');
+            }
+        });
+
+        // Forgot password simulation
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('To reset your password, please contact the IT Administrator at support@autocarepro.com.');
+        });
+
+        // Handle Login Form Submit
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // Simple Validation
+            if (!email || !password) {
+                showError('Please fill in all fields.');
+                return;
+            }
+
+            // Hide previous errors & show loading state
+            errorMessage.style.display = 'none';
+            loginSubmitBtn.disabled = true;
+            btnText.style.opacity = '0.5';
+            btnSpinner.style.display = 'block';
+
+            // Simulate Network Delay (800ms) for premium feels
+            setTimeout(() => {
+                let valid = false;
+                const profileStr = localStorage.getItem('autocare_profile');
+                if (profileStr) {
+                    try {
+                        const profile = JSON.parse(profileStr);
+                        if (email === profile.email && password === (profile.password || 'admin123')) {
+                            valid = true;
+                        }
+                    } catch (e) {}
+                }
+                
+                // Fallback default checks
+                if (email === 'admin@autocare.com' && password === 'admin123') {
+                    valid = true;
+                }
+                if (email === 'akhilesh@autocare.com' && password === 'admin123') {
+                    valid = true;
+                }
+
+                if (valid) {
+                    // Set credentials in localStorage
+                    localStorage.setItem('autocare_auth', 'true');
+                    
+                    // If remember me check, save email
+                    if (document.getElementById('rememberMeCheckbox').checked) {
+                        localStorage.setItem('autocare_saved_email', email);
+                    } else {
+                        localStorage.removeItem('autocare_saved_email');
+                    }
+                    
+                    // Redirect to dashboard
+                    window.location.href = 'index.html';
+                } else {
+                    showError('Invalid email address or password.');
+                    // Reset button state
+                    loginSubmitBtn.disabled = false;
+                    btnText.style.opacity = '1';
+                    btnSpinner.style.display = 'none';
+                }
+            }, 800);
+        });
+
+        // Auto-fill email if remember me was checked in a previous session
+        const savedEmail = localStorage.getItem('autocare_saved_email');
+        if (savedEmail) {
+            emailInput.value = savedEmail;
+            document.getElementById('rememberMeCheckbox').checked = true;
+        }
+
+        function showError(msg) {
+            errorText.textContent = msg;
+            errorMessage.style.display = 'flex';
+            
+            // Add shake animation to login card
+            const card = document.getElementById('loginCard');
+            card.style.transform = 'translateX(-10px)';
+            setTimeout(() => card.style.transform = 'translateX(10px)', 100);
+            setTimeout(() => card.style.transform = 'translateX(-10px)', 200);
+            setTimeout(() => card.style.transform = 'translateX(0)', 300);
+        }
+    </script>
+</body>
+</html>
